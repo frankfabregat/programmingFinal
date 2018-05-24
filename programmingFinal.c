@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <ctype.h>
 //Function declaration
-int max(int num1, int num2);
 void printBoard(char a1, char a2, char a3, char b1, char b2, char b3, char c1, char c2, char c3);
 char Position[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
 bool isCompleted(char a1, char a2, char a3, char b1, char b2, char b3, char c1, char c2, char c3);
