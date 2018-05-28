@@ -11,37 +11,73 @@ char getWinner(char a1, char a2, char a3, char b1, char b2, char b3, char c1, ch
 void changePlayer(); //Declare changePlayer() function
 bool exists(int position); //Declare exists() function
 bool isTie(char a1, char a2, char a3, char b1, char b2, char b3, char c1, char c2, char c3); //Declare isTie() function
+void playAgain(char response); //Declare playAgain() function
+void emptyBoard(); //Declare emptyBoard() function
 /*
  * Declare global variables
  */
 char Position[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //Declare and initialize Position[] array
 char currentPlayer = 'X'; //Declare and initialize currentPlayer char variable with default first player (X)
+bool play = true; //Declare and initialize boolean play that determines if the user wants to play.
+int xWins = 0; //Declare and initialize xWins
+int oWins = 0; //Declare and initialize oWins
 /*
  * Functions
  */
 void main () {  //Main function start
-    //While loop checks that the game is not over and that the board is not full
-    while (isCompleted(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]) == false && isTie(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]) == false) { //Start while loop
-        int col; //Declare integer col (column)
-        char row; //Declare character row
-        printBoard(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Prints the board with the current Position array
-        printf("Player %c Enter Column: ", currentPlayer); //Prints instructions for player to enter column
-        scanf("%d", &col); //Prompts for column
-        printf("Player %c Enter Row: ", currentPlayer); //Prints instructions for player to enter row
-        scanf(" %c", &row); //Prompts for row
-        processCoordinates(col, tolower(row), currentPlayer); //Enters column, row, and player to processCoordinates to make sure the coordinates are valid, are not used, and updates the Position[] array
-    } //End while loop
-    printBoard(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Prints the board after the game is finished
-    if (isTie(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8])) { //isTie() checks if the game ended because of a tie or win
-        printf("It's a tie!"); //Prints that the game is a tie
-    } else { //The game is not a tie, but a win
-        char winner = getWinner(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Gets the winner of the game
-        printf("Player %c Won! Rewards:\n+1 Gracious Professionalism\n+1 Coopertition\n-----------------------------------------------------------------\n ", winner); //Prints the winner and grants the winner +1 Gracious Professionalism and Coopertition
-    } //End of if/else statement
+    while(play) { //Checks if the user wants to play
+        printf("  _______ _        _______           _______         "); //Prints tic tac toe banner
+        printf("\n |__   __(_)      |__   __|         |__   __|        "); //Prints tic tac toe banner
+        printf("\n    | |   _  ___     | | __ _  ___     | | ___   ___"); //Prints tic tac toe banner
+        printf("\n    | |  | |/ __|    | |/ _` |/ __|    | |/ _ \\ / _ \\ "); //Prints tic tac toe banner
+        printf("\n    | |  | | (__     | | (_| | (__     | | (_) |  __/"); //Prints tic tac toe banner
+        printf("\n    |_|  |_|\\___|    |_|\\__,_|\\___|    |_|\\___/ \\___|"); //Prints tic tac toe banner
+        printf("\n\n"); //Prints space
+        printf("Player X Wins: %d\n", xWins); //Prints X wins
+        printf("Player O Wins: %d\n", oWins); //Prints O wins
+        printf("\n\n"); //Prints space
+        while (isCompleted(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]) == false && isTie(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]) == false) { //Start the loop. While loop checks that the game is not over and that the board is not full
+            int col; //Declare integer col (column)
+            char row; //Declare character row
+            printBoard(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Prints the board with the current Position array
+            printf("Player %c Enter Column: ", currentPlayer); //Prints instructions for player to enter column
+            scanf("%d", &col); //Prompts for column
+            printf("Player %c Enter Row: ", currentPlayer); //Prints instructions for player to enter row
+            scanf(" %c", &row); //Prompts for row
+            processCoordinates(col, tolower(row), currentPlayer); //Enters column, row, and player to processCoordinates to make sure the coordinates are valid, are not used, and updates the Position[] array
+        } //End while loop
+        printBoard(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Prints the board after the game is finished
+        if (isTie(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8])) { //isTie() checks if the game ended because of a tie or win
+            printf("It's a tie!"); //Prints that the game is a tie
+        } else { //The game is not a tie, but a win
+            char winner = getWinner(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Gets the winner of the game
+            printf("Player %c Won! Rewards:\n+1 Gracious Professionalism\n+1 Coopertition\n-----------------------------------------------------------------\n ", winner); //Prints the winner and grants the winner +1 Gracious Professionalism and Coopertition
+            if(winner == 'X') { //If the winner is X
+                xWins++; //Add 1 point to X
+            } else if(winner == 'O') { //Else if the winer is O
+                oWins++; //Add 1 point to O
+            } //End of if/else statement
+        } //End of if/else statement
+        char playres; //Declares character playres
+        printf("Want to play again? (Y/N): "); //Prints the question to ask of the user wants to play again
+        scanf(" %c", &playres); //Prompts for response
+        playAgain(tolower(playres)); //Calls function playAgain() to determine if the user wants to play again
+    } //End of while(play) loop
+    printf("\n\n"); //Prints space
+    printf("Player X Wins: %d\n", xWins); //Prints X wins
+    printf("Player O Wins: %d\n\n", oWins); //Prints O wins
+    if (xWins > oWins) { //If X has more wins than O
+        printf("Player X wins with %d Gracious Professionalism and Coopertition points!", xWins); //Print that X won
+    } else if (xWins < oWins) { //Else if O has more wins than X
+        printf("Player O wins with %d Gracious Professionalism and Coopertition points!", oWins); //Print that O won
+    } else if (xWins == oWins) { //Else if it is a tie
+    printf("Player X and Player O tie with %d Gracious Professionalism and Coopertition points!", xWins); //Print that it is a tie
+    } //End if/else statement
+    printf("\n\nThanks for playing!\n"); //Thanks the user for playing with gracious professionalism
 } //End main
 
 void printBoard(char a1, char a2, char a3, char b1, char b2, char b3, char c1, char c2, char c3) {  //Start printBoard(). Prints the board with current Position[] array
-    printf("\n   1   2   3\n"); //Prints column IDs
+    printf("\n\n   1   2   3\n"); //Prints column IDs
     printf("A: %c | %c | %c \n", a1, a2, a3); //Prints 1st row of board
     printf("  ------------\n"); //Prints horizontal line
     printf("B: %c | %c | %c \n", b1, b2, b3); //Prints 2nd row of board
@@ -163,3 +199,25 @@ bool isTie(char a1, char a2, char a3, char b1, char b2, char b3, char c1, char c
         return false; //Returns false. Not all the spots are filled in
     } //End if/else statement
 } //End isTie()
+
+void playAgain(char response) { //Start playAgain. Checks if the user wants to play again, and resets the game if so.
+    if (response == 'y') { //If the user says yes
+        emptyBoard(); //Calls emptyBoard() function to clear board
+    } else { //If the user does not say yes
+        play = false; //Sets play to false, meaning the game is over
+    } //End if/else statement
+} //End playAgain()
+
+void emptyBoard() { //Start emptyBoard(). Clears the board and resets default player.
+    Position[0] = ' '; //Sets the Position[] value to ' ' (space) at index 0
+    Position[1] = ' '; //Sets the Position[] value to ' ' (space) at index 1
+    Position[2] = ' '; //Sets the Position[] value to ' ' (space) at index 2
+    Position[3] = ' '; //Sets the Position[] value to ' ' (space) at index 3
+    Position[4] = ' '; //Sets the Position[] value to ' ' (space) at index 4
+    Position[5] = ' '; //Sets the Position[] value to ' ' (space) at index 5
+    Position[6] = ' '; //Sets the Position[] value to ' ' (space) at index 6
+    Position[7] = ' '; //Sets the Position[] value to ' ' (space) at index 7
+    Position[8] = ' '; //Sets the Position[] value to ' ' (space) at index 8
+    currentPlayer = 'X'; //Sets the currentPlayer to X
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //Gives the effect of clearing the board by printing empty lines
+} //End emptyBoard();
