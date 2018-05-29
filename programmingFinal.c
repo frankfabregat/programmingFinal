@@ -48,7 +48,7 @@ void main () {  //Main function start
         } //End while loop
         printBoard(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Prints the board after the game is finished
         if (isTie(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8])) { //isTie() checks if the game ended because of a tie or win
-            printf("It's a tie!"); //Prints that the game is a tie
+            printf("It's a tie!\n"); //Prints that the game is a tie
         } else { //The game is not a tie, but a win
             char winner = getWinner(Position[0], Position[1], Position[2], Position[3], Position[4], Position[5], Position[6], Position[7], Position[8]); //Gets the winner of the game
             printf("Player %c Won! Rewards:\n+1 Gracious Professionalism\n+1 Coopertition\n-----------------------------------------------------------------\n ", winner); //Prints the winner and grants the winner +1 Gracious Professionalism and Coopertition
@@ -71,7 +71,7 @@ void main () {  //Main function start
     } else if (xWins < oWins) { //Else if O has more wins than X
         printf("Player O wins with %d Gracious Professionalism and Coopertition points!", oWins); //Print that O won
     } else if (xWins == oWins) { //Else if it is a tie
-    printf("Player X and Player O tie with %d Gracious Professionalism and Coopertition points!", xWins); //Print that it is a tie
+    printf("Player X and Player O tied with %d Gracious Professionalism and Coopertition points!", xWins); //Print that it is a tie
     } //End if/else statement
     printf("\n\nThanks for playing!\n"); //Thanks the user for playing with gracious professionalism
 } //End main
